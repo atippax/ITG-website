@@ -21,7 +21,7 @@
           ❌ เกินจำนวนสูงสุดที่อนุญาต ({{ maxFiles }} ไฟล์)
         </small>
       </div>
-      <button
+      <!-- <button
         class="btn btn-primary"
         @click="uploadImagesBinanceth"
         :disabled="files.length === 0 || files.length > maxFiles || isLoading"
@@ -33,7 +33,7 @@
           aria-hidden="true"
         ></span>
         {{ isLoading ? "กำลังอัปโหลด..." : "ส่งรูปภาพ binanth" }}
-      </button>
+      </button> -->
       <button
         class="btn btn-primary"
         @click="uploadImages"
