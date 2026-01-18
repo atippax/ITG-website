@@ -5,6 +5,11 @@ import OCRViewV3 from "../v3.vue";
 
 const routes = [
   {
+    path: "/",
+    name: "main",
+    component: OCRViewV3,
+  },
+  {
     path: "/ocr/v1",
     name: "ocrV1",
     component: OCRViewV1,
