@@ -10,9 +10,16 @@
           id="fileInput"
           class="form-control"
           accept="image/*"
+          multiple
           @change="handleFileChange"
           :disabled="isLoading"
         />
+         <small class="form-text text-muted" v-if="files.length > 0">
+          ไฟล์ที่เลือก: **{{ files.length }}** จาก {{ maxFiles }} ไฟล์
+        </small>
+        <small class="form-text text-danger" v-if="files.length > maxFiles">
+          ❌ เกินจำนวนสูงสุดที่อนุญาต ({{ maxFiles }} ไฟล์)
+        </small>
       </div>
       <button
         class="btn btn-primary"
