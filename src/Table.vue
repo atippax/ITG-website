@@ -11,7 +11,7 @@
       <tbody>
         <tr v-for="(row, index) in items" :key="index">
           <td v-for="header in headers" :key="header">
-            {{ row[header] }}
+           {{ formatCellValue(row[header]) }}
           </td>
         </tr>
       </tbody>
@@ -30,14 +30,32 @@ const props = defineProps({
     default: () => [],
   },
 });
+const formatCellValue = (value) => {
+  if (!value || typeof value !== "string") return value;
 
-// คำนวณหา Headers อัตโนมัติจาก Object ตัวแรก
+  const isoDateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$/;
+  
+  if (isoDateRegex.test(value)) {
+    const date = new Date(value);
+    if (!isNaN(date.getTime())) {
+      return date.toLocaleString("th-TH", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    }
+  }
+  
+  return value;
+};
 const headers = computed(() => {
   if (props.items.length === 0) return [];
   return Object.keys(props.items[0]);
 });
 
-// ฟังก์ชันช่วยปรับรูปแบบตัวอักษรหัวตาราง (เช่น userId -> User Id)
 const formatHeader = (text) => {
   return text
     .replace(/([A-Z])/g, " $1")
