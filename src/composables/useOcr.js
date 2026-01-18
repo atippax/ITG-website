@@ -1,0 +1,52 @@
+import { ref, onMounted, onUnmounted, computed } from "vue";
+import { createWorker } from "tesseract.js";
+
+export function useOcr() {
+  const worker = ref(null);
+  const isReady = ref(false);
+  const isProcessing = ref(false);
+
+  const initWorker = async () => {
+    isReady.value = false;
+    worker.value = await createWorker(["eng", "tha"], 1);
+    console.log(worker.value);
+    isReady.value = true;
+  };
+
+  // ฟังก์ชันสำหรับทำ OCR (รับภาพที่ย่อขนาดแล้วมาใช้)
+  const recognize = async (imageSource) => {
+    console.log(worker.value);
+    console.log(isReady.value);
+    if (!worker.value || !isReady.value) return;
+
+    isProcessing.value = true;
+    try {
+      const {
+        data: { text },
+      } = await worker.value.recognize(imageSource);
+      return text;
+    } catch (error) {
+      console.error("OCR Error:", error);
+    } finally {
+      isProcessing.value = false;
+    }
+  };
+
+  onMounted(() => {
+    initWorker();
+  });
+
+  onUnmounted(async () => {
+    if (worker.value) {
+      console.log("Terminating Tesseract Worker...");
+      await worker.value.terminate();
+      worker.value = null;
+    }
+  });
+
+  return {
+    recognize,
+    isReady: computed(() => isReady.value),
+    isProcessing,
+  };
+}
