@@ -46,16 +46,26 @@ const formatHeader = (text) => {
 </script>
 
 <style scoped>
+.table-container {
+  width: 100%;       
+  overflow-x: auto;  
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 600px;  
 }
-th,
-td {
+
+th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px 8px; 
   text-align: left;
+  white-space: nowrap; 
 }
+
 th {
   background-color: #f4f4f4;
 }
