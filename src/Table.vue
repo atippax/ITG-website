@@ -39,6 +39,7 @@ const formatCellValue = (value) => {
     const date = new Date(value);
     
     if (!isNaN(date.getTime())) {
+      date.setHours(date.getHours()-7)
       return date.toLocaleString("en-GB", {
         timeZone: "Asia/Bangkok",        
         day: "2-digit",
